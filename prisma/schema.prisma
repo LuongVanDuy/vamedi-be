@@ -1,0 +1,150 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+//USER
+model User {
+  id                Int                @id @default(autoincrement())
+  isSuperAdmin      Int                @default(0) @map("is_super_admin")
+  type              String             @db.VarChar(20)
+  email             String             @unique @db.VarChar(320)
+  password          String             @db.VarChar(72)
+  name              String             @map("name") @db.VarChar(255)
+  lastName          String?            @map("last_name") @db.VarChar(255)
+  phone             String?            @db.VarChar(15)      
+  avatar            String?            @db.VarChar(255)
+  verified          Int?               @default(0) @db.TinyInt
+  companyName       String?            @map("company_name")  @db.VarChar(255)
+  companyURL        String?            @map("company_url")  @db.VarChar(255)
+  status            Int                @default(1) @db.TinyInt 
+  newPerson         Int                 @map("new_person") @default(1) @db.TinyInt 
+
+  deleteFlg         Int?               @default(0) @map("delete_flg") @db.TinyInt
+  createdUser       Int?               @map("created_user")
+  updatedUser       Int?               @map("updated_user")
+  createdTime       DateTime           @default(now()) @map("created_time")
+  updatedTime       DateTime           @default(now()) @map("updated_time")
+
+  posts             Post[]        
+  orders            Order[]            @relation("UserOrders")  
+  administrators    Administrator[]    @relation("UserAdministrators")
+
+  @@index([deleteFlg])
+  @@map("user")
+}
+
+//ADMINISTRATOR
+model Administrator {
+  id           Int         @id @default(autoincrement())
+  userId       Int         @map("user_id")
+  user         User        @relation("UserAdministrators", fields: [userId], references: [id])
+  deleteFlg    Int?        @default(0) @map("delete_flg") @db.TinyInt
+
+  createdUser  Int?       @map("created_user")
+  updatedUser  Int?       @map("updated_user")
+  createdTime  DateTime   @default(now()) @map("created_time")
+  updatedTime  DateTime   @default(now()) @map("updated_time")
+
+  @@map("administrators")
+}
+
+model EmailVerify {
+  id          Int     @id @default(autoincrement())
+  email       String  @unique @db.VarChar(320)
+  verifyToken String? @unique @map("verify_token") @db.VarChar(256)
+
+  @@map("email_verify")
+}
+
+//POST
+model Post {
+  id                Int                @id @default(autoincrement())
+  title             String             @db.VarChar(255)
+  slug              String             @unique @db.VarChar(255)
+  shortDesc         String?            @map("short_desc") @db.VarChar(255)
+  content           String             @db.Text
+  thumbnail         String?            @map("thumbnail") @db.VarChar(255)
+  authorId          Int                @map("author_id")
+  user              User               @relation(fields: [authorId], references: [id])
+  deleteFlg         Int?               @default(0) @map("delete_flg") @db.TinyInt
+
+  createdUser       Int?               @map("created_user") 
+  updatedUser       Int?               @map("updated_user") 
+  createdTime       DateTime           @default(now()) @map("created_time") 
+  updatedTime       DateTime           @default(now()) @map("updated_time") 
+
+  tags              Tag[]              @relation("PostTags")
+  
+  @@map("post")
+}
+
+model Tag {
+  id                Int                @id @default(autoincrement())
+  name              String             @unique
+  slug              String             @unique @db.VarChar(255)
+  posts             Post[]             @relation("PostTags")
+
+  @@map("tag")
+}
+
+
+//ORDER
+model Order {
+  id                      String      @id @db.VarChar(255)
+  projectName             String      @map("project_name") @db.VarChar(255) 
+  service                 String      @db.VarChar(255) 
+  uploadImage             String?     @map("upload_image") @db.VarChar(255)
+  quantity                Int?        @default(1) @db.TinyInt
+  designStyle             String?     @map("design_style")
+  photoDetail             String?     @map("photo_detail")
+  photoCompleted          String?     @map("photo_completed")
+  customerId              Int         @map("customer_id")
+  user                    User        @relation("UserOrders", fields: [customerId], references: [id])
+
+  servicePrice            Float       @map("service_price")         
+  additionalService       String?     @map("additional_service")  
+  additionalServicePrice  Float?      @map("additional_service_price") 
+  orderTotal              Float?      @map("order_total")   
+  status                  String      @db.VarChar(255)     
+  isAgreed                Int?        @default(0) @map("is_agreed") @db.TinyInt
+
+  deleteFlg               Int?        @default(0) @map("delete_flg") @db.TinyInt
+  
+  createdUser             Int?        @map("created_user") 
+  updatedUser             Int?        @map("updated_user") 
+  createdTime             DateTime    @default(now()) @map("created_time") 
+  updatedTime             DateTime    @default(now()) @map("updated_time")         
+
+  feedbacks               Feedback[]  @relation("OrderFeedbacks")  
+
+  subService              String?     @map("sub_service") @db.VarChar(255) 
+  addOnService            String?     @map("add_on_service") @db.Text     
+  styleDetail             String?     @map("style_detail") @db.VarChar(255) 
+
+  @@map("order")
+}
+
+//FEEDBACK
+model Feedback {
+  id           Int       @id @default(autoincrement())
+  orderId      String    @db.VarChar(255)  @map("order_id")
+  content      String    @db.Text 
+  status       String    @db.VarChar(255)  
+  createdUser  Int?   
+  updatedUser  Int? 
+  createdTime  DateTime  @default(now()) @map("created_time")
+  updatedTime  DateTime  @default(now()) @map("updated_time") 
+
+  deleteFlg    Int?      @default(0) @map("delete_flg") @db.TinyInt
+
+  order        Order?    @relation("OrderFeedbacks", fields: [orderId], references: [id])
+
+  @@map("feedback")
+}
+
