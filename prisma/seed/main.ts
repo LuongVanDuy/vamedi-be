@@ -6,8 +6,6 @@ import { initOrders } from "./init-orders";
 const prisma = new PrismaClient();
 
 async function main() {
-  await initOrders(prisma);
-  await seedPosts(prisma);
   await initSystemAdmin(prisma);
 }
 

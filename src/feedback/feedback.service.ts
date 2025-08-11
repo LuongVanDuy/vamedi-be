@@ -52,15 +52,6 @@ export class FeedbackService {
       throw new NotFoundException("Order not found");
     }
 
-    if (
-      !userRequest.isSuperAdmin &&
-      orderExists.customerId !== userRequest.id
-    ) {
-      throw new ForbiddenException(
-        "You do not have permission to view this order"
-      );
-    }
-
     const feedback = await this.prisma.feedback.create({
       data: {
         content: data.content,

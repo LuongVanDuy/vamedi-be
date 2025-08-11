@@ -125,6 +125,7 @@ export class OrderService {
         id: data.id,
         projectName: data.projectName,
         service: data.service,
+        subService: data.subService,
         uploadImage: data.uploadImage || null,
         quantity: data.quantity,
         servicePrice: data.servicePrice,
@@ -139,7 +140,7 @@ export class OrderService {
         photoDetail: null,
         additionalService: null,
         additionalServicePrice: null,
-        orderTotal: null,
+        orderTotal: data.orderTotal,
       },
     });
 

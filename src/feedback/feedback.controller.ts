@@ -26,6 +26,7 @@ export class FeedbackController {
 
   @Get()
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiQuery({ name: "status", required: false })
   @ApiQuery({ name: "page", required: false })
   @ApiQuery({ name: "itemsPerPage", required: false })
@@ -55,6 +56,7 @@ export class FeedbackController {
 
   @Post()
   @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   async create(@Users() userRequest, @Body() data: CreateFeedbackDto) {
     return await this.feedbackService.create(userRequest, data);
   }

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateOrderDto {
   @ApiProperty()
@@ -15,6 +15,10 @@ export class CreateOrderDto {
   service: string;
 
   @ApiProperty()
+  @IsNotEmpty()
+  subService: string;
+
+  @ApiProperty()
   @ApiProperty()
   uploadImage: string;
 
@@ -25,4 +29,9 @@ export class CreateOrderDto {
   @ApiProperty()
   @ApiProperty()
   servicePrice: number;
+
+  @ApiProperty({ required: false })
+  @IsNumber()
+  @IsOptional()
+  orderTotal?: number;
 }
