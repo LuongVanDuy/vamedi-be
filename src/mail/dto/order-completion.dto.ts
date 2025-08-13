@@ -36,4 +36,10 @@ export class OrderCompletionDto {
   @IsNotEmpty()
   @IsString()
   email: string;
+
+  user?: {
+    name: string;
+    email: string;
+    phone: string;
+  };
 }

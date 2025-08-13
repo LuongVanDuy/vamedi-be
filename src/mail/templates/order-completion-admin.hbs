@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to Our Platform</title>
+    <title>New Order Completed</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -12,7 +12,6 @@
         background-color: #f4f4f4;
         margin: 0;
         padding: 30px 0;
-        border-radius: 15px;
       }
       .email-container {
         max-width: 600px;
@@ -45,6 +44,20 @@
         margin: 10px 0;
         font-size: 14px;
       }
+      table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+      table th, table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+      table th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+      }
       .footer {
         background-color: #343a40;
         color: #ffffff;
@@ -61,20 +74,60 @@
         <a href="{{domain}}" target="_blank">
           <img src="{{logoUrl}}" alt="Company Logo" />
         </a>
-        <h1>Welcome to Our Platform!</h1>
+        <h1>New Order Completed</h1>
       </div>
 
       <!-- Content Section -->
       <div class="content">
-        <h3>Hello {{name}},</h3>
-        <p>Thank you for signing up! We're excited to have you on board.</p>
-        <p>Your account has been successfully created, and you're now part of our platform!</p>
+        <h3>Hello Admin,</h3>
+        <p>A new order has been completed. Here are the details:</p>
+
+        <!-- Order Details Table -->
+        <table>
+          <tr>
+            <th>Order ID</th>
+            <td>{{orderId}}</td>
+          </tr>
+          <tr>
+            <th>Customer Name</th>
+            <td>{{customerName}}</td>
+          </tr>
+          <tr>
+            <th>Customer Email</th>
+            <td>{{customerEmail}}</td>
+          </tr>
+          <tr>
+            <th>Customer Phone</th>
+            <td>{{customerPhone}}</td>
+          </tr>
+          <tr>
+            <th>Service</th>
+            <td>{{service}}</td>
+          </tr>
+          <tr>
+            <th>Design Style</th>
+            <td>{{designStyle}}</td>
+          </tr>
+          <tr>
+            <th>Additional Service</th>
+            <td>{{additionalService}}</td>
+          </tr>
+          <tr>
+            <th>Total Order</th>
+            <td>{{orderTotal}}</td>
+          </tr>
+          <tr>
+            <th>Order Date</th>
+            <td>{{createdTime}}</td>
+          </tr>
+        </table>
+
+        <p>Please review the order in the admin panel.</p>
       </div>
 
       <!-- Footer Section -->
       <div class="footer">
         <p>This email was sent from <a style="color: rgb(253, 193, 1);" href="{{domain}}" target="_blank">{{domain}}</a>.</p>
-        <p>If you have any questions, feel free to contact our support team.</p>
       </div>
     </div>
   </body>

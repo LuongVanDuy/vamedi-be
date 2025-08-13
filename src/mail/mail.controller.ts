@@ -29,7 +29,7 @@ export class MailController {
         id: 1,
         email: data.to,
         domain: process.env.DOMAIN,
-        logoUrl: "https://funface.vn/wp-content/uploads/2024/11/Logo.png",
+        logoUrl: `${process.env.DOMAINBE}/public/logo.svg`,
       },
     });
 
@@ -41,8 +41,9 @@ export class MailController {
     const fromEmail = this.configService.get("SMTP_FROM_EMAIL");
 
     await this.mailService.sendMail({
-      from: data.email,
-      to: fromEmail,
+      from: fromEmail,
+      to: "trangphotoediting@gmail.com",
+      replyTo: data.email,
       subject: "New Contact Request",
       template: "contact",
       context: {
@@ -52,7 +53,7 @@ export class MailController {
         phoneNumber: data.phoneNumber,
         message: data.message,
         domain: process.env.DOMAIN,
-        logoUrl: "https://funface.vn/wp-content/uploads/2024/11/Logo.png",
+        logoUrl: `${process.env.DOMAINBE}/public/logo.svg`,
       },
     });
 
@@ -65,6 +66,7 @@ export class MailController {
   async handleOrderCompletion(@Body() orderData: OrderCompletionDto) {
     const fromEmail = this.configService.get("SMTP_FROM_EMAIL");
 
+    // Email cho khách hàng
     await this.mailService.sendMail({
       from: fromEmail,
       to: orderData.email,
@@ -78,7 +80,29 @@ export class MailController {
         orderTotal: orderData.orderTotal,
         createdTime: orderData.createdTime,
         domain: process.env.DOMAIN,
-        logoUrl: "https://funface.vn/wp-content/uploads/2024/11/Logo.png",
+        logoUrl: `${process.env.DOMAINBE}/public/logo.svg`,
+      },
+    });
+
+    // Email cho admin
+    await this.mailService.sendMail({
+      from: fromEmail,
+      to: "trangphotoediting@gmail.com",
+      replyTo: orderData.email,
+      subject: "New Order Completed",
+      template: "order-completion-admin",
+      context: {
+        orderId: orderData.orderId,
+        customerName: orderData.user?.name,
+        customerEmail: orderData.user?.email,
+        customerPhone: orderData.user?.phone,
+        service: orderData.service,
+        designStyle: orderData.designStyle,
+        additionalService: orderData.additionalService,
+        orderTotal: orderData.orderTotal,
+        createdTime: orderData.createdTime,
+        domain: process.env.DOMAIN,
+        logoUrl: `${process.env.DOMAINBE}/public/logo.svg`,
       },
     });
 

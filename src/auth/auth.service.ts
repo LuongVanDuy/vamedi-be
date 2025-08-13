@@ -272,7 +272,7 @@ export class AuthService {
       context: {
         name: user.name,
         domain: process.env.DOMAIN,
-        logoUrl: "https://funface.vn/wp-content/uploads/2024/11/Logo.png",
+        logoUrl: `${process.env.DOMAINBE}/public/logo.svg`,
       },
     });
 
@@ -336,7 +336,7 @@ export class AuthService {
         name: user.name,
         resetLink,
         domain: process.env.DOMAIN,
-        logoUrl: "https://funface.vn/wp-content/uploads/2024/11/Logo.png",
+        logoUrl: `${process.env.DOMAINBE}/public/logo.svg`,
       },
     });
 

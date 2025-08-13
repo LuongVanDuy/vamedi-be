@@ -31,7 +31,7 @@ export class OrderService {
             id: true,
             name: true,
             email: true,
-            avatar: true,
+            phone: true,
           },
         },
       },
@@ -153,6 +153,16 @@ export class OrderService {
   ): Promise<{ data: Order; success: boolean; type: SuccessType }> {
     const order = await this.prisma.order.findUnique({
       where: { id: orderId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+          },
+        },
+      },
     });
 
     if (!order) {
