@@ -6,7 +6,6 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
 import { likeField } from "src/common/functions";
-import { ConfigService } from "@nestjs/config";
 import { FindPostDto } from "./dto/find-post.dto";
 import { CreatePostDto } from "./dto/create-post.dto";
 import { SuccessType } from "src/common/types";

@@ -18,10 +18,8 @@ export class MailController {
 
   @Post("/test")
   async test(@Body() data: SendTestEmailDto) {
-    const fromEmail = this.configService.get("SMTP_FROM_EMAIL");
-
     await this.mailService.sendMail({
-      from: fromEmail,
+      from: "thangeditor.company@gmail.com",
       to: data.to,
       subject: "Test email",
       template: "test",
@@ -42,7 +40,7 @@ export class MailController {
 
     await this.mailService.sendMail({
       from: fromEmail,
-      to: "trangphotoediting@gmail.com",
+      to: "thangeditor.company@gmail.com",
       replyTo: data.email,
       subject: "New Contact Request",
       template: "contact",
@@ -87,7 +85,7 @@ export class MailController {
     // Email cho admin
     await this.mailService.sendMail({
       from: fromEmail,
-      to: "trangphotoediting@gmail.com",
+      to: "thangeditor.company@gmail.com",
       replyTo: orderData.email,
       subject: "New Order Completed",
       template: "order-completion-admin",
